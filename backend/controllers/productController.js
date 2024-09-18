@@ -19,7 +19,7 @@ const createProduct = asyncHandler(async (req, res) => {
   //   Validation
   if (!name || !category || !quantity || !price || !description) {
     res.status(400);
-    throw new Error("Please fill in all fields");
+    throw new Error("Please fill in all ");fields
   }
 
   // Handle Image upload
@@ -29,12 +29,12 @@ const createProduct = asyncHandler(async (req, res) => {
     let uploadedFile;
     try {
       uploadedFile = await cloudinary.uploader.upload(req.file.path, {
-        folder: "Pinvent App",
+        folder: "Invetory App",
         resource_type: "image",
       });
     } catch (error) {
       res.status(500);
-      throw new Error("Image could not be uploaded");
+      throw new Error("Image could not be uploaded 909080");
     }
 
     fileData = {

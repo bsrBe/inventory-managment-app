@@ -27,6 +27,7 @@ const ProductForm = ({
             <input
               type="file"
               name="image"
+              value={product?.productImage}
               onChange={(e) => handleImageChange(e)}
             />
 

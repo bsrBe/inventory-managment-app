@@ -67,16 +67,13 @@ const Contact = () => {
               </span>
               <span>
                 <FaEnvelope />
-                <p>Support@invent.com</p>
+                <p>Admin@gmail.com</p>
               </span>
               <span>
                 <GoLocation />
-                <p>Abuja, Nigeria</p>
+                <p>Adiss Ababa, Ethiopia</p>
               </span>
-              <span>
-                <FaTwitter />
-                <p>@ZinoTrust</p>
-              </span>
+        
             </div>
           </Card>
         </div>
