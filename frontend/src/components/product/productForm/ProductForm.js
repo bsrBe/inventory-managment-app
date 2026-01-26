@@ -7,82 +7,95 @@ import "./ProductForm.scss";
 
 const ProductForm = ({
   product,
-  productImage,
-  imagePreview,
   description,
   setDescription,
   handleInputChange,
-  handleImageChange,
   saveProduct,
 }) => {
   return (
     <div className="add-product">
       <Card cardClass={"card"}>
         <form onSubmit={saveProduct}>
-          <Card cardClass={"group"}>
-            <label>Product Image</label>
-            <code className="--color-dark">
-              Supported Formats: jpg, jpeg, png
-            </code>
+          <div className="--form-control">
+            <label>Product Name:</label>
             <input
-              type="file"
-              name="image"
-              value={product?.productImage}
-              onChange={(e) => handleImageChange(e)}
+              type="text"
+              placeholder="Product name"
+              name="name"
+              value={product?.name}
+              onChange={handleInputChange}
             />
+          </div>
 
-            {imagePreview != null ? (
-              <div className="image-preview">
-                <img src={imagePreview} alt="product" />
-              </div>
-            ) : (
-              <p>No image set for this poduct.</p>
-            )}
-          </Card>
-          <label>Product Name:</label>
-          <input
-            type="text"
-            placeholder="Product name"
-            name="name"
-            value={product?.name}
-            onChange={handleInputChange}
-          />
+          <div className="--form-control">
+            <label>Product Category:</label>
+            <input
+              type="text"
+              placeholder="Product Category"
+              name="category"
+              value={product?.category}
+              onChange={handleInputChange}
+            />
+          </div>
 
-          <label>Product Category:</label>
-          <input
-            type="text"
-            placeholder="Product Category"
-            name="category"
-            value={product?.category}
-            onChange={handleInputChange}
-          />
+          <div className="--grid-2">
+            <div className="--form-control">
+              <label>Product Price:</label>
+              <input
+                type="number"
+                placeholder="Product Price"
+                name="price"
+                value={product?.price}
+                onChange={handleInputChange}
+              />
+            </div>
 
-          <label>Product Price:</label>
-          <input
-            type="text"
-            placeholder="Product Price"
-            name="price"
-            value={product?.price}
-            onChange={handleInputChange}
-          />
+            <div className="--form-control">
+              <label>Product Quantity:</label>
+              <input
+                type="number"
+                placeholder="Product Quantity"
+                name="quantity"
+                value={product?.quantity}
+                onChange={handleInputChange}
+              />
+            </div>
+          </div>
 
-          <label>Product Quantity:</label>
-          <input
-            type="text"
-            placeholder="Product Quantity"
-            name="quantity"
-            value={product?.quantity}
-            onChange={handleInputChange}
-          />
+          <div className="--grid-2">
+            <div className="--form-control">
+              <label>Shelf Location:</label>
+              <input
+                type="text"
+                placeholder="e.g. A1, Shelf 2"
+                name="location"
+                value={product?.location}
+                onChange={handleInputChange}
+              />
+            </div>
+            
+            <div className="--form-control">
+              <label>Min Stock Amount:</label>
+              <input
+                type="number"
+                placeholder="e.g. 5"
+                name="minStock"
+                value={product?.minStock}
+                onChange={handleInputChange}
+              />
+            </div>
+          </div>
 
-          <label>Product Description:</label>
-          <ReactQuill
-            theme="snow"
-            value={description}
-            onChange={setDescription}
-            modules={ProductForm.modules}
-            formats={ProductForm.formats}
-          />
+          <div className="--form-control">
+            <label>Product Description:</label>
+            <ReactQuill
+              theme="snow"
+              value={description}
+              onChange={setDescription}
+              modules={ProductForm.modules}
+              formats={ProductForm.formats}
+            />
+          </div>
 
           <div className="--my">
             <button type="submit" className="--btn --btn-primary">

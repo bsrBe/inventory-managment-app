@@ -108,6 +108,7 @@ const ProductList = ({ products, isLoading }) => {
                   <th>Category</th>
                   <th>Price</th>
                   <th>Quantity</th>
+                  <th>Location</th>
                   <th>Value</th>
                   <th>Action</th>
                 </tr>
@@ -115,17 +116,25 @@ const ProductList = ({ products, isLoading }) => {
 
               <tbody>
                 {currentItems.map((product, index) => {
-                  const { _id, name, category, price, quantity } = product;
+                  const { _id, name, category, price, quantity, location, minStock } = product;
+                  const isLowStock = quantity <= (minStock || 5); // Default to 5 if minStock is missing
+                  
                   return (
-                    <tr key={_id}>
+                    <tr key={_id} style={{ backgroundColor: isLowStock ? "#fee2e2" : "transparent" }}>
                       <td>{index + 1}</td>
-                      <td>{shortenText(name, 16)}</td>
+                      <td style={{ color: isLowStock ? "#dc2626" : "inherit" }}>
+                        {shortenText(name, 16)}
+                        {isLowStock && <span style={{fontSize: "10px", display: "block", color: "#dc2626"}}>(Low Stock)</span>}
+                      </td>
                       <td>{category}</td>
                       <td>
                         {"$"}
                         {price}
                       </td>
-                      <td>{quantity}</td>
+                      <td style={{ color: isLowStock ? "#dc2626" : "inherit", fontWeight: isLowStock ? "bold" : "normal" }}>
+                        {quantity}
+                      </td>
+                      <td>{location}</td>
                       <td>
                         {"$"}
                         {price * quantity}

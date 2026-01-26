@@ -20,8 +20,6 @@ const EditProduct = () => {
   const productEdit = useSelector(selectProduct);
 
   const [product, setProduct] = useState(productEdit);
-  const [productImage, setProductImage] = useState("");
-  const [imagePreview, setImagePreview] = useState(null);
   const [description, setDescription] = useState("");
 
   useEffect(() => {
@@ -30,10 +28,6 @@ const EditProduct = () => {
 
   useEffect(() => {
     setProduct(productEdit);
-
-    setImagePreview(
-      productEdit && productEdit.image ? `${productEdit.image.filePath}` : null
-    );
 
     setDescription(
       productEdit && productEdit.description ? productEdit.description : ""
@@ -45,10 +39,7 @@ const EditProduct = () => {
     setProduct({ ...product, [name]: value });
   };
 
-  const handleImageChange = (e) => {
-    setProductImage(e.target.files[0]);
-    setImagePreview(URL.createObjectURL(e.target.files[0]));
-  };
+
 
   const saveProduct = async (e) => {
     e.preventDefault();
@@ -59,9 +50,8 @@ const EditProduct = () => {
     formData.append("quantity", product?.quantity);
     formData.append("price", product?.price);
     formData.append("description", description);
-    if (productImage) {
-      formData.append("image", productImage);
-    }
+    formData.append("location", product?.location);
+    formData.append("minStock", product?.minStock);
 
     console.log(...formData);
 
@@ -76,12 +66,9 @@ const EditProduct = () => {
       <h3 className="--mt">Edit Product</h3>
       <ProductForm
         product={product}
-        productImage={productImage}
-        imagePreview={imagePreview}
         description={description}
         setDescription={setDescription}
         handleInputChange={handleInputChange}
-        handleImageChange={handleImageChange}
         saveProduct={saveProduct}
       />
     </div>

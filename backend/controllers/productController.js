@@ -1,48 +1,16 @@
 const asyncHandler = require("express-async-handler");
 const Product = require("../models/productModel");
-const { fileSizeFormatter } = require("../utils/fileUpload");
-const cloudinary = require("cloudinary").v2;
 
-
-
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
 
 
 // Create Prouct
 const createProduct = asyncHandler(async (req, res) => {
-  const { name, sku, category, quantity, price, description } = req.body;
+  const { name, sku, category, quantity, price, description, location, minStock } = req.body;
 
   //   Validation
-  if (!name || !category || !quantity || !price || !description) {
+  if (!name || !category || !quantity || !price || !description || !location) {
     res.status(400);
-    throw new Error("Please fill in all ");fields
-  }
-
-  // Handle Image upload
-  let fileData = {};
-  if (req.file) {
-    // Save image to cloudinary
-    let uploadedFile;
-    try {
-      uploadedFile = await cloudinary.uploader.upload(req.file.path, {
-        folder: "Invetory App",
-        resource_type: "image",
-      });
-    } catch (error) {
-      res.status(500);
-      throw new Error("Image could not be uploaded 909080");
-    }
-
-    fileData = {
-      fileName: req.file.originalname,
-      filePath: uploadedFile.secure_url,
-      fileType: req.file.mimetype,
-      fileSize: fileSizeFormatter(req.file.size, 2),
-    };
+    throw new Error("Please fill in all fields");
   }
 
   // Create Product
@@ -54,7 +22,8 @@ const createProduct = asyncHandler(async (req, res) => {
     quantity,
     price,
     description,
-    image: fileData,
+    location,
+    minStock,
   });
 
   res.status(201).json(product);
@@ -101,7 +70,7 @@ const deleteProduct = asyncHandler(async (req, res) => {
 
 // Update Product
 const updateProduct = asyncHandler(async (req, res) => {
-  const { name, category, quantity, price, description } = req.body;
+  const { name, category, quantity, price, description, location, minStock } = req.body;
   const { id } = req.params;
 
   const product = await Product.findById(id);
@@ -117,29 +86,6 @@ const updateProduct = asyncHandler(async (req, res) => {
     throw new Error("User not authorized");
   }
 
-  // Handle Image upload
-  let fileData = {};
-  if (req.file) {
-    // Save image to cloudinary
-    let uploadedFile;
-    try {
-      uploadedFile = await cloudinary.uploader.upload(req.file.path, {
-        folder: "Pinvent App",
-        resource_type: "image",
-      });
-    } catch (error) {
-      res.status(500);
-      throw new Error("Image could not be uploaded");
-    }
-
-    fileData = {
-      fileName: req.file.originalname,
-      filePath: uploadedFile.secure_url,
-      fileType: req.file.mimetype,
-      fileSize: fileSizeFormatter(req.file.size, 2),
-    };
-  }
-
   // Update Product
   const updatedProduct = await Product.findByIdAndUpdate(
     { _id: id },
@@ -149,7 +95,8 @@ const updateProduct = asyncHandler(async (req, res) => {
       quantity,
       price,
       description,
-      image: Object.keys(fileData).length === 0 ? product?.image : fileData,
+      location,
+      minStock,
     },
     {
       new: true,

@@ -44,16 +44,7 @@ const ProductDetail = () => {
         {isLoading && <SpinnerImg />}
         {product && (
           <div className="detail">
-            <Card cardClass="group">
-              {product?.image ? (
-                <img
-                  src={product.image.filePath}
-                  alt={product.image.fileName}
-                />
-              ) : (
-                <p>No image set for this product</p>
-              )}
-            </Card>
+
             <h4>Product Availability: {stockStatus(product.quantity)}</h4>
             <hr />
             <h4>
@@ -68,6 +59,9 @@ const ProductDetail = () => {
             <p>
               <b>&rarr; Price : </b> {"$"}
               {product.price}
+            </p>
+            <p>
+              <b>&rarr; Location : </b> {product.location}
             </p>
             <p>
               <b>&rarr; Quantity in stock : </b> {product.quantity}
